@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#274b34"/>
+<title>Rustic Oakes Camera Management</title>
+<style>
+:root{
+  --bg:#f3f5f1;--card:#fff;--ink:#1e2a21;--muted:#6e786f;--green:#2f6b43;
+  --green2:#dcebdd;--yellow:#b7791f;--yellow2:#fff0c7;--red:#a33a3a;--red2:#f6dada;
+  --border:#d9dfd8;--shadow:0 8px 24px rgba(35,50,38,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#223c2b,#365f42);color:white;padding:20px 16px 18px;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px rgba(0,0,0,.16)}
+.topline{display:flex;justify-content:space-between;gap:12px;align-items:center;max-width:1100px;margin:auto}
+.brand h1{font-size:1.15rem;margin:0}.brand small{opacity:.8}
+.badge{padding:7px 10px;background:rgba(255,255,255,.13);border-radius:999px;font-size:.78rem}
+main{max-width:1100px;margin:auto;padding:16px}
+.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 16px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.kpi .n{font-size:1.6rem;font-weight:750}.kpi .l{font-size:.78rem;color:var(--muted)}
+.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 10px}
+.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle button,.actions button{border:0;border-radius:10px;padding:10px 12px;background:#2f5d3a;color:#fff;font-weight:650}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.camname{font-size:1.08rem;font-weight:750}.sub{color:var(--muted);font-size:.8rem;margin-top:2px}
+.status{font-size:.72rem;font-weight:800;padding:6px 9px;border-radius:999px}
+.GREEN{background:var(--green2);color:var(--green)} .YELLOW{background:var(--yellow2);color:var(--yellow)} .RED{background:var(--red2);color:var(--red)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.metric{padding:10px;background:#f7f8f6;border-radius:12px}.metric b{display:block;font-size:.95rem}.metric span{font-size:.72rem;color:var(--muted)}
+.progress{height:7px;background:#e8ece6;border-radius:99px;overflow:hidden;margin-top:8px}.progress>i{display:block;height:100%;background:#54765e}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;font-size:.8rem}.meta div{padding:9px;background:#fbfcfa;border-radius:10px}
+.note{margin-top:10px;color:#4f5a51;font-size:.82rem;line-height:1.4}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.actions button.secondary{background:#edf2ed;color:#294934}
+table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{padding:11px 10px;border-bottom:1px solid #edf0ec;text-align:left;font-size:.78rem}th{background:#eef3ee;color:#405145}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cad2c9;border-radius:10px;background:#fff;color:#1e2a21}
+dialog{border:0;border-radius:18px;max-width:520px;width:calc(100% - 24px);box-shadow:0 18px 50px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(0,0,0,.35)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.formgrid label{font-size:.76rem;color:#5e685f}
+.formgrid .full{grid-column:1/-1}
+footer{text-align:center;color:#7b847d;font-size:.72rem;padding:28px}
+@media(max-width:760px){
+  .hero{grid-template-columns:repeat(2,1fr)} .grid{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(3,1fr)} .meta{grid-template-columns:1fr}
+  .topline{align-items:flex-start}.badge{display:none}.formgrid{grid-template-columns:1fr}
+}
+</style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rustic Oakes">
+
+</head>
+<body>
+<header>
+  <div class="topline">
+    <div class="brand"><h1>Rustic Oakes Camera Management</h1><small>Good people, wild places, and better days.</small></div>
+    <div class="badge">Pilot · Westport Farm</div>
+  </div>
+</header>
+<main>
+  <div class="hero">
+    <div class="kpi"><div class="n" id="total">0</div><div class="l">Total cameras</div></div>
+    <div class="kpi"><div class="n" id="healthy">0</div><div class="l">Healthy</div></div>
+    <div class="kpi"><div class="n" id="attention">0</div><div class="l">Needs attention</div></div>
+    <div class="kpi"><div class="n" id="offline">0</div><div class="l">Offline</div></div>
+  </div>
+
+  <div class="sectionTitle">
+    <h2>Camera Fleet</h2>
+    <div class="controls">
+      <button onclick="openAdd()">+ Add camera</button>
+      <button onclick="exportData()">Export data</button>
+    </div>
+  </div>
+  <div id="cameraGrid" class="grid"></div>
+
+  <div class="sectionTitle"><h2>Health History</h2></div>
+  <div style="overflow:auto">
+    <table>
+      <thead><tr><th>Time</th><th>Camera</th><th>Signal</th><th>Battery</th><th>Status</th><th>Observation</th></tr></thead>
+      <tbody id="logBody"></tbody>
+    </table>
+  </div>
+</main>
+
+<dialog id="editDialog">
+  <form method="dialog" onsubmit="return saveEdit(event)">
+    <h3 id="dlgTitle">Update Camera</h3>
+    <input type="hidden" id="editId"/>
+    <div class="formgrid">
+      <label>Camera name<input id="editName" required></label>
+      <label>Status<select id="editStatus"><option>GREEN</option><option>YELLOW</option><option>RED</option></select></label>
+      <label>Signal<select id="editSignal"><option>None</option><option>Low</option><option>Medium</option><option>High</option></select></label>
+      <label>Battery<select id="editBattery"><option>Low</option><option>Medium</option><option>High</option></select></label>
+      <label>Health<select id="editHealth"><option>Good</option><option>Attention</option><option>Offline</option><option>Unknown</option></select></label>
+      <label>GPS<input id="editGps"></label>
+      <label>Last sync<input type="datetime-local" id="editSync"></label>
+      <label>Photo count<input type="number" min="0" id="editPhotos"></label>
+      <label class="full">Notes<textarea id="editNotes" rows="3"></textarea></label>
+    </div>
+    <div class="actions" style="justify-content:flex-end;margin-top:16px">
+      <button type="button" class="secondary" onclick="document.getElementById('editDialog').close()">Cancel</button>
+      <button value="default">Save update</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="addDialog">
+  <form method="dialog" onsubmit="return addCamera(event)">
+    <h3>Add Camera</h3>
+    <div class="formgrid">
+      <label>Camera ID<input id="addId" required placeholder="RO-WF-003"></label>
+      <label>Camera name<input id="addName" required></label>
+      <label>Manufacturer<input id="addMaker" placeholder="SPYPOINT"></label>
+      <label>Model<input id="addModel"></label>
+      <label>Signal<select id="addSignal"><option>None</option><option>Low</option><option>Medium</option><option>High</option></select></label>
+      <label>Battery<select id="addBattery"><option>Low</option><option>Medium</option><option selected>High</option></select></label>
+      <label>Status<select id="addStatus"><option>GREEN</option><option>YELLOW</option><option>RED</option></select></label>
+      <label>GPS<input id="addGps" placeholder="Not recorded"></label>
+      <label class="full">Notes<textarea id="addNotes" rows="3"></textarea></label>
+    </div>
+    <div class="actions" style="justify-content:flex-end;margin-top:16px">
+      <button type="button" class="secondary" onclick="document.getElementById('addDialog').close()">Cancel</button>
+      <button value="default">Add camera</button>
+    </div>
+  </form>
+</dialog>
+
+<footer>Rustic Oakes · Camera Management v1 · Local pilot build</footer>
+
+<script>
+const seed = {"property": {"customer": "Rustic Oakes Pilot", "name": "Westport Farm", "area": "Westport, Ontario"}, "cameras": [{"id": "RO-WF-001", "name": "Donny's Stand", "manufacturer": "SPYPOINT", "model": "FLEX G", "signal": "Medium", "battery": "High", "health": "Good", "status": "GREEN", "lastSync": "2026-10-06T18:37:00", "gps": "Not recorded", "photoUsed": 89, "photoLimit": 250, "installDate": "2026-10-03", "nextService": "2026-11-03", "notes": "Signal improved from Low at install to Medium while remaining operational."}, {"id": "RO-WF-002", "name": "Archie's Stand", "manufacturer": "SPYPOINT", "model": "FLEX G", "signal": "Medium", "battery": "High", "health": "Good", "status": "YELLOW", "lastSync": "2026-10-06T18:31:00", "gps": "Missing", "photoUsed": 0, "photoLimit": 250, "installDate": "2026-10-03", "nextService": "2026-11-03", "notes": "Operational; GPS still needs to be confirmed/recorded."}], "healthLog": [{"timestamp": "2026-10-03T00:00:00", "cameraId": "RO-WF-001", "signal": "Low", "battery": "High", "health": "Good", "status": "GREEN", "observation": "Install baseline; weak cellular signal."}, {"timestamp": "2026-10-06T18:37:00", "cameraId": "RO-WF-001", "signal": "Medium", "battery": "High", "health": "Good", "status": "GREEN", "observation": "Signal improved from Low to Medium without a site visit."}, {"timestamp": "2026-10-03T00:00:00", "cameraId": "RO-WF-002", "signal": "Medium", "battery": "High", "health": "Good", "status": "YELLOW", "observation": "Camera checking in; GPS not yet recorded."}, {"timestamp": "2026-10-06T18:31:00", "cameraId": "RO-WF-002", "signal": "Medium", "battery": "High", "health": "Good", "status": "YELLOW", "observation": "Operational; GPS remains outstanding."}]};
+let db = JSON.parse(localStorage.getItem("rusticOakesDB") || JSON.stringify(seed));
+
+function fmtTime(s){
+  if(!s) return "—";
+  const d=new Date(s); return d.toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
+}
+function esc(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m])); }
+function save(){ localStorage.setItem("rusticOakesDB",JSON.stringify(db)); render(); }
+
+function render(){
+  total.textContent=db.cameras.length;
+  healthy.textContent=db.cameras.filter(c=>c.status==="GREEN").length;
+  attention.textContent=db.cameras.filter(c=>c.status==="YELLOW").length;
+  offline.textContent=db.cameras.filter(c=>c.status==="RED").length;
+
+  cameraGrid.innerHTML=db.cameras.map(c=>{
+    const pct=c.photoLimit?Math.min(100,Math.round((c.photoUsed||0)/c.photoLimit*100)):0;
+    return `<article class="card">
+      <div class="row"><div><div class="camname">${esc(c.name)}</div><div class="sub">${esc(c.id)} · ${esc(c.manufacturer)} ${esc(c.model)}</div></div><span class="status ${esc(c.status)}">${esc(c.status)}</span></div>
+      <div class="metrics">
+        <div class="metric"><b>${esc(c.signal)}</b><span>Signal</span></div>
+        <div class="metric"><b>${esc(c.battery)}</b><span>Battery</span></div>
+        <div class="metric"><b>${esc(c.health)}</b><span>Health</span></div>
+      </div>
+      <div class="meta">
+        <div><b>Last sync</b><br>${fmtTime(c.lastSync)}</div>
+        <div><b>GPS</b><br>${esc(c.gps)}</div>
+        <div><b>Installed</b><br>${esc(c.installDate)}</div>
+        <div><b>Next service</b><br>${esc(c.nextService)}</div>
+      </div>
+      <div class="note"><b>Photo plan:</b> ${c.photoUsed||0} / ${c.photoLimit||0}
+        <div class="progress"><i style="width:${pct}%"></i></div>
+      </div>
+      <div class="note">${esc(c.notes)}</div>
+      <div class="actions"><button onclick="editCamera('${esc(c.id)}')">Update camera</button><button class="secondary" onclick="logHealth('${esc(c.id)}')">Log health check</button></div>
+    </article>`
+  }).join("");
+
+  const names=Object.fromEntries(db.cameras.map(c=>[c.id,c.name]));
+  logBody.innerHTML=[...db.healthLog].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map(r=>
+    `<tr><td>${fmtTime(r.timestamp)}</td><td>${esc(names[r.cameraId]||r.cameraId)}</td><td>${esc(r.signal)}</td><td>${esc(r.battery)}</td><td><span class="status ${esc(r.status)}">${esc(r.status)}</span></td><td>${esc(r.observation)}</td></tr>`
+  ).join("");
+}
+
+function editCamera(id){
+  const c=db.cameras.find(x=>x.id===id); if(!c) return;
+  editId.value=c.id; editName.value=c.name; editStatus.value=c.status; editSignal.value=c.signal;
+  editBattery.value=c.battery; editHealth.value=c.health; editGps.value=c.gps||"";
+  editSync.value=(c.lastSync||"").slice(0,16); editPhotos.value=c.photoUsed||0; editNotes.value=c.notes||"";
+  dlgTitle.textContent=`Update ${c.name}`; editDialog.showModal();
+}
+function saveEdit(e){
+  e.preventDefault();
+  const c=db.cameras.find(x=>x.id===editId.value); if(!c) return false;
+  const old={...c};
+  c.name=editName.value; c.status=editStatus.value; c.signal=editSignal.value; c.battery=editBattery.value;
+  c.health=editHealth.value; c.gps=editGps.value||"Not recorded"; c.lastSync=editSync.value?new Date(editSync.value).toISOString():"";
+  c.photoUsed=Number(editPhotos.value||0); c.notes=editNotes.value;
+  const obs=[];
+  if(old.signal!==c.signal) obs.push(`Signal ${old.signal} → ${c.signal}`);
+  if(old.battery!==c.battery) obs.push(`Battery ${old.battery} → ${c.battery}`);
+  if(old.health!==c.health) obs.push(`Health ${old.health} → ${c.health}`);
+  if(old.status!==c.status) obs.push(`Status ${old.status} → ${c.status}`);
+  db.healthLog.push({timestamp:new Date().toISOString(),cameraId:c.id,signal:c.signal,battery:c.battery,health:c.health,status:c.status,observation:obs.join("; ")||"Camera record updated."});
+  editDialog.close(); save(); return false;
+}
+function logHealth(id){
+  const c=db.cameras.find(x=>x.id===id); if(!c) return;
+  db.healthLog.push({timestamp:new Date().toISOString(),cameraId:c.id,signal:c.signal,battery:c.battery,health:c.health,status:c.status,observation:"Manual health check logged."});
+  save();
+}
+function openAdd(){ addDialog.showModal(); }
+function addCamera(e){
+  e.preventDefault();
+  if(db.cameras.some(c=>c.id===addId.value)){ alert("That camera ID already exists."); return false; }
+  const now=new Date();
+  const next=new Date(now); next.setMonth(next.getMonth()+1);
+  const c={id:addId.value,name:addName.value,manufacturer:addMaker.value||"Unknown",model:addModel.value||"",
+    signal:addSignal.value,battery:addBattery.value,health:"Good",status:addStatus.value,lastSync:"",
+    gps:addGps.value||"Not recorded",photoUsed:0,photoLimit:250,installDate:now.toISOString().slice(0,10),
+    nextService:next.toISOString().slice(0,10),notes:addNotes.value||""};
+  db.cameras.push(c);
+  db.healthLog.push({timestamp:new Date().toISOString(),cameraId:c.id,signal:c.signal,battery:c.battery,health:c.health,status:c.status,observation:"Camera added to Rustic Oakes management."});
+  addDialog.close(); save(); e.target.reset(); return false;
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="rustic-oakes-camera-data.json"; a.click(); URL.revokeObjectURL(a.href);
+}
+render();
+</script>
+
+<div id="installBar" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:50;background:#223c2b;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.25);align-items:center;justify-content:space-between;gap:10px">
+  <div><b>Install Rustic Oakes</b><div style="font-size:.78rem;opacity:.82">Add this dashboard to your home screen.</div></div>
+  <button id="installBtn" style="border:0;border-radius:10px;padding:10px 12px;background:#fff;color:#223c2b;font-weight:700">Install</button>
+</div>
+<script>
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const bar = document.getElementById('installBar');
+  if (bar) bar.style.display = 'flex';
+});
+document.getElementById('installBtn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBar').style.display = 'none';
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('installBar').style.display = 'none';
+});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(console.error);
+  });
+}
+</script>
+
+</body>
+</html>
