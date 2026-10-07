@@ -1,29 +1,29 @@
 {
-  "updatedAt": "2026-10-06T21:12:00-04:00",
+  "updatedAt": "2026-10-07T18:44:00-04:00",
   "cameras": [
     {
       "id": "RO-WF-001",
-      "signal": "Medium",
+      "signal": "Low",
       "battery": "High",
       "health": "Good",
       "status": "GREEN",
-      "lastSync": "2026-10-06T18:37:00",
-      "gps": "Not recorded",
-      "photoUsed": 89,
+      "lastSync": "2026-10-07T18:37:00",
+      "gps": "44.711815, -76.472950",
+      "photoUsed": 128,
       "photoLimit": 250,
-      "notes": "Signal improved from Low at install to Medium while remaining operational."
+      "notes": "Operational. GPS confirmed Oct. 7. Low cellular signal, high battery, health good."
     },
     {
       "id": "RO-WF-002",
-      "signal": "Medium",
+      "signal": "Low",
       "battery": "High",
       "health": "Good",
-      "status": "YELLOW",
-      "lastSync": "2026-10-06T18:31:00",
-      "gps": "Missing",
-      "photoUsed": 0,
+      "status": "GREEN",
+      "lastSync": "2026-10-07T18:30:00",
+      "gps": "44.711313, -76.457577",
+      "photoUsed": 179,
       "photoLimit": 250,
-      "notes": "Operational; GPS still needs to be confirmed/recorded."
+      "notes": "Operational. GPS confirmed Oct. 7. Low cellular signal, high battery, health good."
     }
   ]
 }
