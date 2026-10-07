@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rustic Oakes Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #0c1110, #171d19);
+      font-family: Arial, sans-serif;
+      color: white;
+      padding: 24px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 390px;
+      background: #171d1a;
+      border: 1px solid #354239;
+      border-radius: 22px;
+      padding: 34px 26px;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(0,0,0,.45);
+    }
+
+    .logo {
+      width: 150px;
+      max-width: 55%;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      margin: 8px 0 28px;
+      color: #aeb9b0;
+      font-size: 14px;
+    }
+
+    .field {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      color: #d6ddd8;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #46554b;
+      background: #0e1411;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #8ea98f;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 10px;
+      background: #667f63;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #789574;
+    }
+
+    .forgot {
+      display: inline-block;
+      margin-top: 18px;
+      color: #aeb9b0;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      color: #718078;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-card">
+
+    <img
+      src="rustic-oakes-logo.png"
+      alt="Rustic Oakes Tree"
+      class="logo"
+    >
+
+    <h1>RUSTIC OAKES</h1>
+    <div class="subtitle">Camera Management Portal</div>
+
+    <form onsubmit="login(event)">
+
+      <div class="field">
+        <label>Email</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="you@example.com"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+       
