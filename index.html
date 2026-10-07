@@ -15,7 +15,7 @@
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
 header{background:linear-gradient(135deg,#223c2b,#365f42);color:white;padding:20px 16px 18px;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px rgba(0,0,0,.16)}
 .topline{display:flex;justify-content:space-between;gap:12px;align-items:center;max-width:1100px;margin:auto}
-.brand{display:flex;align-items:center;gap:12px}.brand h1{font-size:1.15rem;margin:0}.brand small{opacity:.8}.brandLogo{width:58px;height:58px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 2px 5px rgba(0,0,0,.18))}
+.brand h1{font-size:1.15rem;margin:0}.brand small{opacity:.8}
 .badge{padding:7px 10px;background:rgba(255,255,255,.13);border-radius:999px;font-size:.78rem}
 main{max-width:1100px;margin:auto;padding:16px}
 .hero{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 16px}
@@ -38,7 +38,6 @@ main{max-width:1100px;margin:auto;padding:16px}
 table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
 th,td{padding:11px 10px;border-bottom:1px solid #edf0ec;text-align:left;font-size:.78rem}th{background:#eef3ee;color:#405145}
 .controls{display:flex;gap:8px;flex-wrap:wrap}
-.syncbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-radius:14px;padding:11px 12px;margin:0 0 16px;box-shadow:var(--shadow);font-size:.78rem}.syncbar .syncmeta{color:var(--muted);line-height:1.45}.syncbar button{border:0;border-radius:10px;padding:10px 12px;background:#2f5d3a;color:#fff;font-weight:650}.syncbar button:disabled{opacity:.55}.syncstate{font-weight:750;color:#355c3f}
 input,select,textarea{width:100%;padding:10px;border:1px solid #cad2c9;border-radius:10px;background:#fff;color:#1e2a21}
 dialog{border:0;border-radius:18px;max-width:520px;width:calc(100% - 24px);box-shadow:0 18px 50px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(0,0,0,.35)}
@@ -51,11 +50,19 @@ footer{text-align:center;color:#7b847d;font-size:.72rem;padding:28px}
   .topline{align-items:flex-start}.badge{display:none}.formgrid{grid-template-columns:1fr}
 }
 </style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rustic Oakes">
+
 </head>
 <body>
 <header>
   <div class="topline">
-    <div class="brand"><img src="./rustic-oakes-logo.png" alt="Rustic Oakes" class="brandLogo"><div><h1>Rustic Oakes Camera Management</h1><small>Good people, wild places, and better days.</small></div></div>
+    <div class="brand"><h1>Rustic Oakes Camera Management</h1><small>Good people, wild places, and better days.</small></div>
     <div class="badge">Pilot · Westport Farm</div>
   </div>
 </header>
@@ -65,11 +72,6 @@ footer{text-align:center;color:#7b847d;font-size:.72rem;padding:28px}
     <div class="kpi"><div class="n" id="healthy">0</div><div class="l">Healthy</div></div>
     <div class="kpi"><div class="n" id="attention">0</div><div class="l">Needs attention</div></div>
     <div class="kpi"><div class="n" id="offline">0</div><div class="l">Offline</div></div>
-  </div>
-
-  <div class="syncbar">
-    <div class="syncmeta"><span class="syncstate" id="syncState">Auto refresh ready</span><br><span id="lastRefresh">Last data check: never</span> · <span id="nextRefresh">Next: —</span></div>
-    <button id="refreshBtn" onclick="refreshCameraData(true)">Refresh Now</button>
   </div>
 
   <div class="sectionTitle">
@@ -138,10 +140,6 @@ footer{text-align:center;color:#7b847d;font-size:.72rem;padding:28px}
 <script>
 const seed = {"property": {"customer": "Rustic Oakes Pilot", "name": "Westport Farm", "area": "Westport, Ontario"}, "cameras": [{"id": "RO-WF-001", "name": "Donny's Stand", "manufacturer": "SPYPOINT", "model": "FLEX G", "signal": "Medium", "battery": "High", "health": "Good", "status": "GREEN", "lastSync": "2026-10-06T18:37:00", "gps": "Not recorded", "photoUsed": 89, "photoLimit": 250, "installDate": "2026-10-03", "nextService": "2026-11-03", "notes": "Signal improved from Low at install to Medium while remaining operational."}, {"id": "RO-WF-002", "name": "Archie's Stand", "manufacturer": "SPYPOINT", "model": "FLEX G", "signal": "Medium", "battery": "High", "health": "Good", "status": "YELLOW", "lastSync": "2026-10-06T18:31:00", "gps": "Missing", "photoUsed": 0, "photoLimit": 250, "installDate": "2026-10-03", "nextService": "2026-11-03", "notes": "Operational; GPS still needs to be confirmed/recorded."}], "healthLog": [{"timestamp": "2026-10-03T00:00:00", "cameraId": "RO-WF-001", "signal": "Low", "battery": "High", "health": "Good", "status": "GREEN", "observation": "Install baseline; weak cellular signal."}, {"timestamp": "2026-10-06T18:37:00", "cameraId": "RO-WF-001", "signal": "Medium", "battery": "High", "health": "Good", "status": "GREEN", "observation": "Signal improved from Low to Medium without a site visit."}, {"timestamp": "2026-10-03T00:00:00", "cameraId": "RO-WF-002", "signal": "Medium", "battery": "High", "health": "Good", "status": "YELLOW", "observation": "Camera checking in; GPS not yet recorded."}, {"timestamp": "2026-10-06T18:31:00", "cameraId": "RO-WF-002", "signal": "Medium", "battery": "High", "health": "Good", "status": "YELLOW", "observation": "Operational; GPS remains outstanding."}]};
 let db = JSON.parse(localStorage.getItem("rusticOakesDB") || JSON.stringify(seed));
-const REFRESH_MS = 6 * 60 * 60 * 1000;
-const FEED_URL = './cameras.json';
-let lastFeedCheck = Number(localStorage.getItem('rusticOakesLastFeedCheck') || 0);
-let refreshTimer = null;
 
 function fmtTime(s){
   if(!s) return "—";
@@ -149,73 +147,6 @@ function fmtTime(s){
 }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m])); }
 function save(){ localStorage.setItem("rusticOakesDB",JSON.stringify(db)); render(); }
-
-function refreshLabels(){
-  const lastEl=document.getElementById('lastRefresh');
-  const nextEl=document.getElementById('nextRefresh');
-  if(!lastFeedCheck){ lastEl.textContent='Last data check: never'; nextEl.textContent='Next: due now'; return; }
-  const last=new Date(lastFeedCheck);
-  const next=new Date(lastFeedCheck+REFRESH_MS);
-  lastEl.textContent=`Last data check: ${last.toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}`;
-  nextEl.textContent=`Next: ${next.toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}`;
-}
-
-function mergeFeed(feed){
-  if(!feed || !Array.isArray(feed.cameras)) return 0;
-  let changed=0;
-  for(const incoming of feed.cameras){
-    const current=db.cameras.find(c=>c.id===incoming.id);
-    if(!current) continue;
-    const fields=['signal','battery','health','status','lastSync','gps','photoUsed','photoLimit','notes'];
-    const diffs=[];
-    for(const field of fields){
-      if(incoming[field] !== undefined && incoming[field] !== current[field]){
-        diffs.push(`${field}: ${current[field] ?? '—'} → ${incoming[field]}`);
-        current[field]=incoming[field];
-      }
-    }
-    if(diffs.length){
-      changed++;
-      db.healthLog.push({timestamp:new Date().toISOString(),cameraId:current.id,signal:current.signal,battery:current.battery,health:current.health,status:current.status,observation:`Automatic feed update. ${diffs.join('; ')}`});
-    }
-  }
-  return changed;
-}
-
-async function refreshCameraData(manual=false){
-  const btn=document.getElementById('refreshBtn');
-  const state=document.getElementById('syncState');
-  if(btn) btn.disabled=true;
-  state.textContent=manual?'Refreshing now…':'Checking camera feed…';
-  try{
-    const res=await fetch(`${FEED_URL}?t=${Date.now()}`, {cache:'no-store'});
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
-    const feed=await res.json();
-    const changed=mergeFeed(feed);
-    lastFeedCheck=Date.now();
-    localStorage.setItem('rusticOakesLastFeedCheck', String(lastFeedCheck));
-    localStorage.setItem('rusticOakesDB', JSON.stringify(db));
-    render();
-    state.textContent=changed?`${changed} camera${changed===1?'':'s'} updated`:'Feed checked — no changes';
-  }catch(err){
-    state.textContent='Feed unavailable — showing saved data';
-    console.warn('Camera feed refresh failed:', err);
-  }finally{
-    if(btn) btn.disabled=false;
-    refreshLabels();
-  }
-}
-
-function scheduleAutoRefresh(){
-  refreshLabels();
-  const check=()=>{
-    const due=!lastFeedCheck || Date.now()-lastFeedCheck>=REFRESH_MS;
-    if(due) refreshCameraData(false);
-    else refreshLabels();
-  };
-  check();
-  refreshTimer=setInterval(check, 60*1000);
-}
 
 function render(){
   total.textContent=db.cameras.length;
@@ -298,11 +229,36 @@ function exportData(){
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="rustic-oakes-camera-data.json"; a.click(); URL.revokeObjectURL(a.href);
 }
 render();
-scheduleAutoRefresh();
+</script>
 
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('Service worker registration failed:',err));
+<div id="installBar" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:50;background:#223c2b;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.25);align-items:center;justify-content:space-between;gap:10px">
+  <div><b>Install Rustic Oakes</b><div style="font-size:.78rem;opacity:.82">Add this dashboard to your home screen.</div></div>
+  <button id="installBtn" style="border:0;border-radius:10px;padding:10px 12px;background:#fff;color:#223c2b;font-weight:700">Install</button>
+</div>
+<script>
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const bar = document.getElementById('installBar');
+  if (bar) bar.style.display = 'flex';
+});
+document.getElementById('installBtn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBar').style.display = 'none';
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('installBar').style.display = 'none';
+});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(console.error);
+  });
 }
 </script>
+
 </body>
 </html>
