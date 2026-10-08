@@ -229,26 +229,33 @@
           }
         );
 
-        marker.bindPopup(`
 
-          <strong>${camera.id}</strong><br><br>
+          marker.bindPopup(`
 
-          Signal:
-          <strong>${camera.signal}</strong><br>
+  <strong style="font-size:16px;">
+    ${camera.name || camera.id}
+  </strong><br>
 
-          Battery:
-          <strong>${camera.battery}</strong><br>
+  <span style="color:#6e786f;">
+    ${camera.id}
+  </span><br><br>
 
-          Health:
-          <strong>${camera.health}</strong><br>
+  Signal:
+  <strong>${camera.signal}</strong><br>
 
-          Status:
-          <strong>${camera.status}</strong><br><br>
+  Battery:
+  <strong>${camera.battery}</strong><br>
 
-          GPS:<br>
-          ${camera.gps}
+  Health:
+  <strong>${camera.health}</strong><br>
 
-        `);
+  Status:
+  <strong>${camera.status}</strong><br><br>
+
+  GPS:<br>
+  ${camera.gps}
+
+`);
 
         marker.addTo(map);
 
