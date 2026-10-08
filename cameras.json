@@ -1,8 +1,9 @@
 {
   "updatedAt": "2026-10-07T18:44:00-04:00",
   "cameras": [
-    {
-      "id": "RO-WF-001",
+      {
+  "id": "RO-WF-001",
+  "name": "Donny's Stand"
       "signal": "Low",
       "battery": "High",
       "health": "Good",
@@ -15,6 +16,7 @@
     },
     {
       "id": "RO-WF-002",
+      "name": "Archie's Stand",
       "signal": "Low",
       "battery": "High",
       "health": "Good",
