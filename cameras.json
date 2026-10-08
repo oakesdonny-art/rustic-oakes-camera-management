@@ -3,7 +3,7 @@
   "cameras": [
       {
   "id": "RO-WF-001",
-  "name": "Donny's Stand"
+  "name": "Donny's Stand",
       "signal": "Low",
       "battery": "High",
       "health": "Good",
