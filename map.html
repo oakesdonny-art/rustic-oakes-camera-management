@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rustic Oakes Camera Map</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <style>
+    :root {
+      --bg: #f3f5f1;
+      --card: #ffffff;
+      --ink: #1e2a21;
+      --muted: #6e786f;
+      --green: #2f6b43;
+      --border: #d9dfd8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, #223c2b, #365f42);
+      color: white;
+      padding: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .brand img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      opacity: .8;
+      font-size: 14px;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    nav a {
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: bold;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    nav a.active {
+      background: var(--green);
+      color: white;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 0 16px 30px;
+    }
+
+    .map-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 8px 24px rgba(35,50,38,.08);
+    }
+
+    #map {
+      height: 65vh;
+      min-height: 450px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .status {
+      font-weight: bold;
+    }
+
+    .error {
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+
+    <img
+      src="rustic-oakes-logo-2.png"
+      alt="Rustic Oakes"
+    >
+
+    <div>
+      <h1>Rustic Oakes Camera Map</h1>
+      <p>Good people, wild places, and better days.</p>
+    </div>
+
+  </div>
+</header>
+
+<nav>
+  <a href="index.html">Dashboard</a>
+  <a href="map.html" class="active">Map</a>
+</nav>
+
+<main>
+
+  <div class="map-card">
+
+    <div id="map"></div>
+
+    <div id="error" class="error" style="display:none;">
+      No GPS camera locations available.
+    </div>
+
+  </div>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+  const map = L.map("map");
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors"
+    }
+  ).addTo(map);
+
+  function parseGPS(value) {
+
+    if (!value) return null;
+
+    const match = value.match(
+      /(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/
+    );
+
+    if (!match) return null;
+
+    return [
+      Number(match[1]),
+      Number(match[2])
+    ];
+  }
+
+  function markerColor(status) {
+
+    if (status === "RED") return "#a33a3a";
+
+    if (status === "YELLOW") return "#b7791f";
+
+    return "#2f6b43";
+  }
+
+  async function loadCameras() {
+
+    try {
+
+      const response = await fetch(
+        "cameras.json?t=" + Date.now(),
+        {
+          cache: "no-store"
+        }
+      );
+
+      const data = await response.json();
+
+      const locations = [];
+
+      data.cameras.forEach(camera => {
+
+        const gps = parseGPS(camera.gps);
+
+        if (!gps) return;
+
+        locations.push(gps);
+
+        const marker = L.circleMarker(
+          gps,
+          {
+            radius: 10,
+            color: "#ffffff",
+            weight: 3,
+            fillColor: markerColor(camera.status),
+            fillOpacity: 1
+          }
+        );
+
+        marker.bindPopup(`
+
+          <strong>${camera.id}</strong><br><br>
+
+          Signal:
+          <strong>${camera.signal}</strong><br>
+
+          Battery:
+          <strong>${camera.battery}</strong><br>
+
+          Health:
+          <strong>${camera.health}</strong><br>
+
+          Status:
+          <strong>${camera.status}</strong><br><br>
+
+          GPS:<br>
+          ${camera.gps}
+
+        `);
+
+        marker.addTo(map);
+
+      });
+
+      if (locations.length === 0) {
+
+        document.getElementById("map").style.display = "none";
+
+        document.getElementById("error").style.display = "block";
+
+        return;
+      }
+
+      if (locations.length === 1) {
+
+        map.setView(
+          locations[0],
+          16
+        );
+
+      } else {
+
+        map.fitBounds(
+          locations,
+          {
+            padding: [40,40],
+            maxZoom: 17
+          }
+        );
+
+      }
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      document.getElementById("map").style.display = "none";
+
+      document.getElementById("error").style.display = "block";
+
+    }
+
+  }
+
+  loadCameras();
+
+</script>
+
+</body>
+</html>
