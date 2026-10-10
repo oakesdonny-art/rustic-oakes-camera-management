@@ -336,5 +336,35 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('Service worker registration failed:',err));
 }
 </script>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    setPersistence,
+    browserSessionPersistence
+  } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA2iX_KsU6kixAq4q9aMqaNOX44HGQA08U",
+    authDomain: "login-rustic.firebaseapp.com",
+    projectId: "login-rustic",
+    storageBucket: "login-rustic.firebasestorage.app",
+    messagingSenderId: "575825149318",
+    appId: "1:575825149318:web:af5ec298e043dd0c390007",
+    measurementId: "G-LLT2M93QX6"
+  };
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const auth = getAuth(firebaseApp);
+
+  await setPersistence(auth, browserSessionPersistence);
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.replace("login.html");
+    }
+  });
+  </script>
 </body>
 </html>
