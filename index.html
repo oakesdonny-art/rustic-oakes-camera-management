@@ -90,6 +90,7 @@ footer{text-align:center;color:#7b847d;font-size:.72rem;padding:28px}
     color:#1e2a21;
     border:1px solid #d9dfd8;
   ">Map</a>
+    <button id="logoutBtn" type="button" style="margin-left:auto;padding:10px 16px;border-radius:999px;font-weight:bold;background:#1e2a21;color:white;border:1px solid #1e2a21;">Log Out</button>
   </nav>
 <main>
   <div class="hero">
@@ -366,6 +367,10 @@ if('serviceWorker' in navigator){
       window.location.replace("login.html");
     }
   });
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.replace("login.html");
+});
   </script>
 </body>
 </html>
