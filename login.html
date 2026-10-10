@@ -160,11 +160,42 @@
 
   </div>
 
-  <script>
-    function login(event) {
-      event.preventDefault();
-      window.location.href = "index.html";
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserSessionPersistence
+  } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA2iX_KsU6kixAq4q9aMqaNOX44HGQA08U",
+    authDomain: "login-rustic.firebaseapp.com",
+    projectId: "login-rustic",
+    storageBucket: "login-rustic.firebasestorage.app",
+    messagingSenderId: "575825149318",
+    appId: "1:575825149318:web:af5ec298e043dd0c390007",
+    measurementId: "G-LLT2M93QX6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.login = async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+      await setPersistence(auth, browserSessionPersistence);
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.replace("index.html");
+    } catch (error) {
+      alert("Login failed. Check your email and password.");
     }
+  };
   </script>
 
 </body>
