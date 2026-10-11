@@ -1,18 +1,22 @@
 {
-  "updatedAt": "2026-10-07T18:44:00-04:00",
+  "updatedAt": "2026-10-10T20:53:00-04:00",
   "cameras": [
-      {
-  "id": "RO-WF-001",
-  "name": "Donny's Stand",
-      "signal": "Low",
+    {
+      "id": "RO-WF-001",
+      "name": "Donny's Stand",
+      "signal": "Medium",
       "battery": "High",
       "health": "Good",
       "status": "GREEN",
-      "lastSync": "2026-10-07T18:37:00",
-      "gps": "44.711815, -76.472950",
+      "lastSync": "2026-10-10T18:37:00-04:00",
+      "gps": "44.711446, -76.472033",
       "photoUsed": 128,
       "photoLimit": 250,
-      "notes": "Operational. GPS confirmed Oct. 7. Low cellular signal, high battery, health good."
+      "temperatureC": 9,
+      "sdUsedGB": 0.4,
+      "sdTotalGB": 58.6,
+      "firmware": "2.2.0-19-g27d2edd",
+      "notes": "Oct. 10 SPYPOINT app: operational; medium cellular signal, high AA battery, GPS confirmed. Manual screenshot update."
     },
     {
       "id": "RO-WF-002",
@@ -21,11 +25,15 @@
       "battery": "High",
       "health": "Good",
       "status": "GREEN",
-      "lastSync": "2026-10-07T18:30:00",
-      "gps": "44.711313, -76.457577",
+      "lastSync": "2026-10-10T18:30:00-04:00",
+      "gps": "44.711372, -76.457648",
       "photoUsed": 179,
       "photoLimit": 250,
-      "notes": "Operational. GPS confirmed Oct. 7. Low cellular signal, high battery, health good."
+      "temperatureC": 8,
+      "sdUsedGB": 0.3,
+      "sdTotalGB": 58.6,
+      "firmware": "2.2.0-19-g27d2edd",
+      "notes": "Oct. 10 SPYPOINT app: operational; low cellular signal, high AA battery, GPS confirmed. Monitor weak signal. Manual screenshot update."
     }
   ]
 }
