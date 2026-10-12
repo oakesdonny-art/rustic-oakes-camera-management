@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rustic Oakes | Client Management</title>
+<style>
+* {box-sizing:border-box}
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f3f5f1;
+  color:#203326;
+}
+header {
+  background:#203a29;
+  color:#f4ead3;
+  padding:18px;
+  text-align:center;
+}
+.logo {
+  width:150px;
+  max-width:50%;
+  height:auto;
+}
+h1 {font-size:23px;margin:10px 0}
+nav {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:12px;
+  background:#e5ebe2;
+}
+nav a {
+  white-space:nowrap;
+  padding:11px 15px;
+  border-radius:10px;
+  text-decoration:none;
+  background:white;
+  color:#203326;
+  font-weight:bold;
+}
+nav a.active {
+  background:#2f6b43;
+  color:white;
+}
+main {
+  max-width:850px;
+  margin:auto;
+  padding:18px;
+}
+.card {
+  background:white;
+  border:1px solid #d9dfd8;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 5px 15px #0000000d;
+}
+.card h2 {margin-top:0;font-size:21px}
+label {
+  display:block;
+  font-weight:bold;
+  margin:14px 0 6px;
+}
+input,select {
+  width:100%;
+  padding:13px;
+  border:1px solid #bdc9bd;
+  border-radius:9px;
+  font-size:16px;
+}
+button {
+  padding:13px 18px;
+  margin-top:16px;
+  border:0;
+  border-radius:10px;
+  background:#2f6b43;
+  color:white;
+  font-weight:bold;
+}
+button:disabled {
+  background:#a3aea3;
+  cursor:not-allowed;
+}
+.notice {
+  background:#edf3ea;
+  padding:13px;
+  border-left:4px solid #66865b;
+  border-radius:8px;
+  line-height:1.5;
+}
+.status {
+  display:inline-block;
+  background:#f4e8bd;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:13px;
+}
+footer {
+  text-align:center;
+  color:#67766b;
+  padding:25px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo"
+    src="rustic-oakes-logo-2.png"
+    alt="Rustic Oakes">
+  <h1>Client Management</h1>
+  <p>Rustic Oakes Operations</p>
+</header>
+
+<nav>
+  <a href="index.html">Dashboard</a>
+  <a href="map.html">Map</a>
+  <a class="active" href="clients.html">Clients</a>
+</nav>
+
+<main>
+
+<div class="notice">
+  Management prototype. No client
+  invitations will be sent yet.
+  Do not enter real customer information.
+</div>
+
+<div class="card" style="margin-top:18px">
+  <h2>Client Overview</h2>
+  <p>Total Clients: 0</p>
+  <p>Active Accounts: 0</p>
+  <p>Pending Invitations: 0</p>
+</div>
+
+<div class="card">
+  <h2>Invite New Client</h2>
+
+  <label for="clientName">Client Name</label>
+  <input id="clientName"
+    placeholder="Customer name"
+    autocomplete="off">
+
+  <label for="clientEmail">Email Address</label>
+  <input id="clientEmail"
+    type="email"
+    placeholder="customer@example.com"
+    autocomplete="off">
+
+  <label for="clientProperty">
+    Assigned Property
+  </label>
+  <select id="clientProperty">
+    <option value="">
+      Select a property
+    </option>
+    <option disabled>
+      Properties will load from Firestore
+    </option>
+  </select>
+
+  <button disabled>
+    Send Invitation (Coming Soon)
+  </button>
+
+  <p>
+    Invitations will use secure,
+    expiring registration links.
+  </p>
+</div>
+
+<div class="card">
+  <h2>Client Accounts</h2>
+  <p>
+    No client accounts have been
+    connected yet.
+  </p>
+  <span class="status">
+    Awaiting setup
+  </span>
+</div>
+
+<div class="card">
+  <h2>Account Controls</h2>
+  <p>
+    Future controls will include
+    resending invitations, revoking
+    account access, and managing
+    assigned properties.
+  </p>
+</div>
+
+</main>
+
+<footer>
+  Rustic Oakes Co.<br>
+  Good people, wild places, and better days.
+</footer>
+
+<script type="module">
+import {initializeApp}
+  from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
+import {getAuth,onAuthStateChanged}
+  from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyA2iX_KsU6kixAq4q9aMqaNOX44HGQA08U",
+  authDomain:"login-rustic.firebaseapp.com",
+  projectId:"login-rustic",
+  appId:"1:575825149318:web:af5ec298e043dd0c390007"
+});
+
+const auth=getAuth(app);
+
+// Prototype authentication check.
+// Role-based management protection
+// will be added before production use.
+onAuthStateChanged(auth,user=>{
+  if(!user){
+    location.replace("login.html");
+  }
+});
+</script>
+</body>
+</html>
