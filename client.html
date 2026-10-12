@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rustic Oakes Client Portal</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #0f1d12, #1b2e1f);
+      color: #f4f1e8;
+      padding: 18px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 20px 16px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
+    .hero img {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      margin: 0 auto 16px;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 1.9rem;
+      margin-bottom: 8px;
+      color: #e8dcc0;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: #d9d1bf;
+      line-height: 1.5;
+    }
+
+    .welcome-box {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      background: rgba(232, 220, 192, 0.08);
+      border: 1px solid rgba(232, 220, 192, 0.15);
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      margin: 24px 0 12px;
+      color: #e8dcc0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #f1e7ce;
+      font-size: 1.1rem;
+    }
+
+    .card p,
+    .card li {
+      color: #f3efe3;
+      line-height: 1.5;
+      font-size: 0.96rem;
+    }
+
+    .card ul {
+      padding-left: 18px;
+      margin-top: 8px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .good {
+      background: #1f5c2f;
+      color: #d9ffd9;
+    }
+
+    .warning {
+      background: #6b5615;
+      color: #fff1bc;
+    }
+
+    .service-note {
+      background: rgba(255,255,255,0.05);
+      border-left: 4px solid #d8c28a;
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #d8c28a;
+      color: #172117;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: #f5f1e6;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.88rem;
+      color: #cfc6b1;
+      opacity: 0.95;
+    }
+
+    @media (min-width: 700px) {
+      .grid.two {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="hero">
+      <img src="rustic-oakes-logo-2.png" alt="Rustic Oakes Logo" />
+      <h1>Client Portal</h1>
+      <p>
+        Welcome to Rustic Oakes. This portal gives you a clear view of your
+        camera health, service information, and account details.
+      </p>
+
+      <div class="welcome-box">
+        <strong>Welcome, Client</strong>
+        <p style="margin-top: 8px;">
+          Good people, wild places, and better days.
+        </p>
+      </div>
+
+      <div class="button-row" style="justify-content:center;">
+        <a class="btn btn-primary" href="#">View My Properties</a>
+        <a class="btn btn-secondary" href="#">Billing & Payments</a>
+        <button class="btn btn-secondary" onclick="logout()">Log Out</button>
+      </div>
+    </div>
+
+    <h2 class="section-title">My Properties</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Westport Property</h3>
+        <p><strong>Cameras:</strong> 2</p>
+        <p><strong>Service Plan:</strong> Seasonal Monitoring</p>
+        <p><strong>Last Service Visit:</strong> October 4, 2026</p>
+        <span class="status good">Active</span>
+      </div>
+
+      <div class="card">
+        <h3>Mallorytown Property</h3>
+        <p><strong>Cameras:</strong> 1</p>
+        <p><strong>Service Plan:</strong> Monthly Monitoring</p>
+        <p><strong>Last Service Visit:</strong> October 1, 2026</p>
+        <span class="status warning">Attention Needed</span>
+      </div>
+    </div>
+
+    <h2 class="section-title">Camera Health</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Archie's Stand</h3>
+        <p><strong>Battery:</strong> High</p>
+        <p><strong>Signal:</strong> Low</p>
+        <p><strong>Last Check-In:</strong> 6:30 PM</p>
+        <p><strong>GPS:</strong> 44.711372, -76.457648</p>
+        <span class="status warning">Low Signal</span>
+      </div>
+
+      <div class="card">
+        <h3>Upper Ridge</h3>
+        <p><strong>Battery:</strong> High</p>
+        <p><strong>Signal:</strong> Medium</p>
+        <p><strong>Last Check-In:</strong> 6:37 PM</p>
+        <p><strong>GPS:</strong> 44.711446, -76.472033</p>
+        <span class="status good">Healthy</span>
+      </div>
+    </div>
+
+    <h2 class="section-title">Upcoming Service</h2>
+    <div class="card">
+      <h3>Next Scheduled Visit</h3>
+      <p><strong>Date:</strong> October 18, 2026</p>
+      <p><strong>Service Type:</strong> Bi-weekly Maintenance Check</p>
+
+      <div class="service-note">
+        Technician will inspect mounts, battery levels, SD card status,
+        camera positioning, and signal performance.
+      </div>
+    </div>
+
+    <h2 class="section-title">Billing & Account</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Current Plan</h3>
+        <p><strong>Package:</strong> Seasonal Camera Management</p>
+        <p><strong>Rate:</strong> $60/camera/month</p>
+        <p><strong>Billing Cycle:</strong> Monthly</p>
+      </div>
+
+      <div class="card">
+        <h3>Latest Invoice</h3>
+        <p><strong>Invoice #:</strong> RO-1007</p>
+        <p><strong>Status:</strong> Paid</p>
+        <p><strong>Date:</strong> October 7, 2026</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Need Help?</h2>
+    <div class="card">
+      <h3>Contact Rustic Oakes</h3>
+      <ul>
+        <li>Questions about service visits</li>
+        <li>Camera health or placement concerns</li>
+        <li>Billing or subscription support</li>
+        <li>Requesting a new property setup</li>
+      </ul>
+
+      <div class="button-row">
+        <a class="btn btn-primary" href="mailto:info@rusticoakes.ca">Email Support</a>
+        <a class="btn btn-secondary" href="tel:+10000000000">Call Rustic Oakes</a>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Rustic Oakes Co. | Good people, wild places, and better days.
+    </div>
+  </div>
+
+  <script>
+    function logout() {
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
