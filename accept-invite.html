@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+ content="width=device-width, initial-scale=1">
+<title>Rustic Oakes | Invitation</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 30px 16px;
+  background: linear-gradient(#0c1110,#203a29);
+  color: #f4ead3;
+  font-family: Arial, sans-serif;
+}
+.card {
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 30px 24px;
+  background: #171d1a;
+  border: 1px solid #46554b;
+  border-radius: 20px;
+  text-align: center;
+}
+.logo {
+  width: 160px;
+  max-width: 65%;
+  height: auto;
+}
+h1 { font-size: 26px; }
+p { color: #cfcfc5; line-height: 1.5; }
+label {
+  display: block;
+  margin: 18px 0 8px;
+  text-align: left;
+}
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #677668;
+  background: #101713;
+  color: white;
+  font-size: 16px;
+}
+button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 15px;
+  border: 0;
+  border-radius: 10px;
+  background: #667f63;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+button:disabled { opacity: .55; }
+.notice {
+  margin-top: 20px;
+  padding: 12px;
+  background: #283b2d;
+  border-radius: 8px;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <img class="logo"
+    src="rustic-oakes-logo-2.png"
+    alt="Rustic Oakes">
+
+  <h1>Welcome to Rustic Oakes</h1>
+  <p>You've been invited to join our portal.</p>
+
+  <form>
+    <label for="name">Your Name</label>
+    <input id="name" type="text"
+      placeholder="Your name" disabled>
+
+    <label for="email">Email Address</label>
+    <input id="email" type="email"
+      placeholder="you@example.com" disabled>
+
+    <label for="password">Create Password</label>
+    <input id="password" type="password"
+      placeholder="Create a password" disabled>
+
+    <button type="button" disabled>
+      Activate Account (Coming Soon)
+    </button>
+  </form>
+
+  <div class="notice">
+    Secure invitation setup is in progress.
+    Registration is not enabled yet.
+  </div>
+
+  <p>Good people, wild places, and better days.</p>
+</div>
+</body>
+</html>
