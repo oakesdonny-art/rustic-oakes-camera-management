@@ -205,8 +205,10 @@ import {initializeApp}
   from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
 
 import {getAuth,onAuthStateChanged}
+  
   from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-
+import {getFirestore,doc,getDoc}
+  from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 const app = initializeApp({
   apiKey:"AIzaSyA2iX_KsU6kixAq4q9aMqaNOX44HGQA08U",
   authDomain:"login-rustic.firebaseapp.com",
@@ -216,14 +218,40 @@ const app = initializeApp({
 
 const auth=getAuth(app);
 
-// Prototype authentication check.
-// Role-based management protection
-// will be added before production use.
-onAuthStateChanged(auth,user=>{
-  if(!user){
+
+const db = getFirestore(app);
+
+document.body.style.visibility = "hidden";
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
     location.replace("login.html");
+    return;
+  }
+
+  try {
+    const profile = await getDoc(
+      doc(db, "users", user.uid)
+    );
+
+    if (!profile.exists() ||
+        profile.data().role !== "admin") {
+      document.body.innerHTML =
+        "<h2>Access Denied</h2><p>Management access required.</p>";
+      document.body.style.visibility = "visible";
+      return;
+    }
+
+    document.body.style.visibility = "visible";
+
+  } catch (error) {
+    console.error("Authorization failed", error);
+    document.body.innerHTML =
+      "<h2>Access Unavailable</h2><p>Unable to verify permissions.</p>";
+    document.body.style.visibility = "visible";
   }
 });
+
 </script>
 </body>
 </html>
